@@ -49,7 +49,7 @@ export default function CaseCard({ caseData, onResolve, onCancel }) {
   const badgeClasses = STATUS_BADGE_CLASSES[caseData.status] ?? STATUS_BADGE_CLASSES.open;
 
   return (
-    <div className="bg-white border border-gray-200 rounded-xl p-4 shadow-sm">
+    <div className="bg-white border border-gray-200 rounded-xl p-4 shadow">
       {/* Header row: truncated symptom + badge + date */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
         <p className="text-sm text-gray-900 font-medium flex-1">

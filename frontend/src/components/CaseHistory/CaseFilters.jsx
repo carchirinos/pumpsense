@@ -28,7 +28,7 @@ export default function CaseFilters({ filters, onChange }) {
   }
 
   return (
-    <div className="bg-white border border-gray-200 rounded-xl p-4 shadow-sm space-y-4">
+    <div className="bg-white border border-gray-200 rounded-xl p-4 shadow space-y-4">
       {/* Row 1: search + status */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {/* Free-text symptom search */}
@@ -42,7 +42,7 @@ export default function CaseFilters({ filters, onChange }) {
             value={filters.search}
             onChange={(e) => update('search', e.target.value)}
             placeholder={t('history.filterSearch')}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm placeholder-gray-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+            className="w-full border border-gray-300 bg-gray-50 rounded-lg px-3 py-2 text-sm placeholder-gray-400 focus:outline-none focus:bg-white focus-visible:ring-2 focus-visible:ring-blue-600"
           />
         </div>
 
@@ -55,7 +55,7 @@ export default function CaseFilters({ filters, onChange }) {
             id="filter-status"
             value={filters.status}
             onChange={(e) => update('status', e.target.value)}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+            className="w-full border border-gray-300 bg-gray-50 rounded-lg px-3 py-2 text-sm focus:outline-none focus:bg-white focus-visible:ring-2 focus-visible:ring-blue-600"
           >
             <option value="">{t('status.all')}</option>
             <option value="open">{t('status.open')}</option>
@@ -78,7 +78,7 @@ export default function CaseFilters({ filters, onChange }) {
             value={filters.technicianName}
             onChange={(e) => update('technicianName', e.target.value)}
             placeholder={t('history.filterTechnician')}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm placeholder-gray-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+            className="w-full border border-gray-300 bg-gray-50 rounded-lg px-3 py-2 text-sm placeholder-gray-400 focus:outline-none focus:bg-white focus-visible:ring-2 focus-visible:ring-blue-600"
           />
         </div>
 
@@ -92,7 +92,7 @@ export default function CaseFilters({ filters, onChange }) {
             type="date"
             value={filters.from}
             onChange={(e) => update('from', e.target.value)}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+            className="w-full border border-gray-300 bg-gray-50 rounded-lg px-3 py-2 text-sm focus:outline-none focus:bg-white focus-visible:ring-2 focus-visible:ring-blue-600"
           />
         </div>
 
@@ -106,7 +106,7 @@ export default function CaseFilters({ filters, onChange }) {
             type="date"
             value={filters.to}
             onChange={(e) => update('to', e.target.value)}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+            className="w-full border border-gray-300 bg-gray-50 rounded-lg px-3 py-2 text-sm focus:outline-none focus:bg-white focus-visible:ring-2 focus-visible:ring-blue-600"
           />
         </div>
       </div>

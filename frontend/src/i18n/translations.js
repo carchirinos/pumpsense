@@ -194,7 +194,7 @@ const translations = {
     'errors.nameRequired': 'Por favor, ingresa tu nombre.',
 
     // ── Case History ──────────────────────────────────────────────────────────
-    'history.link':             'Historial',
+    'history.link':             'Historial de casos',
     'history.pageTitle':        'Historial de Casos',
     'history.pageSubtitle':     'Navega, filtra y resuelve diagnósticos anteriores.',
     'history.loading':          'Cargando casos…',
