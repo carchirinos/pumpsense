@@ -1,0 +1,23 @@
+{
+  "name": "pumpsense-diagnostic-backend",
+  "version": "1.0.0",
+  "description": "PumpSense Lambda backend — AI diagnostic engine for industrial pump failures",
+  "main": "handler.js",
+  "type": "module",
+  "scripts": {
+    "lint": "eslint .",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@aws-sdk/client-bedrock-runtime": "3.1093.0",
+    "@aws-sdk/client-dynamodb": "3.1093.0",
+    "@aws-sdk/lib-dynamodb": "3.1093.0"
+  },
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.7.0"
+  }
+}

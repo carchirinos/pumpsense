@@ -1,0 +1,88 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: PumpSense Diagnostic Agent Backend
+
+Globals:
+  Function:
+    Timeout: 30
+    MemorySize: 512
+    Runtime: nodejs24.x
+    Environment:
+      Variables:
+        BEDROCK_MODEL_ID: us.anthropic.claude-sonnet-4-6
+        BEDROCK_REGION: !Ref AWS::Region
+        CASES_TABLE: !Ref CasesTable
+
+Resources:
+  # ─── DynamoDB ────────────────────────────────────────────────────────────────
+  CasesTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: PumpSenseCases
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+
+  # ─── Lambda ─────────────────────────────────────────────────────────────────
+  DiagnosticFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: backend/
+      Handler: handler.handler
+      Policies:
+        - Statement:
+            - Effect: Allow
+              Action:
+                - bedrock:InvokeModel
+              Resource:
+                - !Sub 'arn:aws:bedrock:${AWS::Region}:${AWS::AccountId}:inference-profile/us.anthropic.claude-sonnet-4-6'
+                - 'arn:aws:bedrock:*::foundation-model/anthropic.claude-sonnet-4-*'
+        - DynamoDBCrudPolicy:
+            TableName: !Ref CasesTable
+      Events:
+        DiagnoseApi:
+          Type: Api
+          Properties:
+            Path: /diagnose
+            Method: POST
+            RestApiId: !Ref DiagnosticApi
+        CreateCase:
+          Type: Api
+          Properties:
+            Path: /cases
+            Method: POST
+            RestApiId: !Ref DiagnosticApi
+        GetCases:
+          Type: Api
+          Properties:
+            Path: /cases
+            Method: GET
+            RestApiId: !Ref DiagnosticApi
+        UpdateCase:
+          Type: Api
+          Properties:
+            Path: /cases/{id}
+            Method: PATCH
+            RestApiId: !Ref DiagnosticApi
+
+  # ─── API Gateway ────────────────────────────────────────────────────────────
+  DiagnosticApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: prod
+      Cors:
+        AllowMethods: "'GET,POST,PATCH,OPTIONS'"
+        AllowHeaders: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+        AllowOrigin: "'*'"
+
+Outputs:
+  DiagnosticApiUrl:
+    Description: "API Gateway endpoint URL for the prod stage"
+    Value: !Sub "https://${DiagnosticApi}.execute-api.${AWS::Region}.amazonaws.com/prod"
+  CasesTableName:
+    Description: "DynamoDB table name for cases"
+    Value: !Ref CasesTable

@@ -1,0 +1,16 @@
+{
+  "httpMethod": "POST",
+  "path": "/cases",
+  "headers": {
+    "Content-Type": "application/json"
+  },
+  "pathParameters": null,
+  "queryStringParameters": null,
+  "requestContext": {
+    "httpMethod": "POST",
+    "path": "/cases",
+    "stage": "prod"
+  },
+  "body": "{\"symptom\":\"Loud grinding noise with heavy vibration\",\"cause\":\"Worn bearings due to inadequate lubrication\",\"action\":\"1. Stop pump immediately\\n2. Inspect bearings\\n3. Replace if damaged\",\"confidence\":\"high\",\"language\":\"en\"}",
+  "isBase64Encoded": false
+}

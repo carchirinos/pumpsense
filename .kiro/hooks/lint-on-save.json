@@ -1,0 +1,15 @@
+{
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "Lint Backend on Save",
+      "trigger": "PostFileSave",
+      "description": "Runs ESLint on the backend/ folder whenever a .js file is saved",
+      "matcher": "backend/.*\\.js$",
+      "action": {
+        "type": "command",
+        "command": "cd backend && npm run lint"
+      }
+    }
+  ]
+}

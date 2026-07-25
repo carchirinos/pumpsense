@@ -1,0 +1,14 @@
+{
+  "httpMethod": "GET",
+  "path": "/cases",
+  "headers": {},
+  "pathParameters": null,
+  "queryStringParameters": null,
+  "requestContext": {
+    "httpMethod": "GET",
+    "path": "/cases",
+    "stage": "prod"
+  },
+  "body": null,
+  "isBase64Encoded": false
+}

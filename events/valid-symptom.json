@@ -1,0 +1,18 @@
+{
+  "httpMethod": "POST",
+  "path": "/diagnose",
+  "headers": {
+    "Content-Type": "application/json",
+    "Accept": "application/json"
+  },
+  "queryStringParameters": null,
+  "pathParameters": null,
+  "stageVariables": null,
+  "requestContext": {
+    "httpMethod": "POST",
+    "path": "/diagnose",
+    "stage": "prod"
+  },
+  "body": "{\"symptom\":\"The pump started making a loud grinding noise about an hour ago and now it's vibrating heavily. Bearing housing feels very hot to the touch.\"}",
+  "isBase64Encoded": false
+}

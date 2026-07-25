@@ -1,0 +1,18 @@
+{
+  "httpMethod": "PATCH",
+  "path": "/cases/REPLACE_WITH_REAL_ID",
+  "headers": {
+    "Content-Type": "application/json"
+  },
+  "pathParameters": {
+    "id": "REPLACE_WITH_REAL_ID"
+  },
+  "queryStringParameters": null,
+  "requestContext": {
+    "httpMethod": "PATCH",
+    "path": "/cases/REPLACE_WITH_REAL_ID",
+    "stage": "prod"
+  },
+  "body": "{\"status\":\"resolved\",\"resolutionNote\":\"Replaced both bearings, realigned shaft, verified vibration within spec\",\"technicianName\":\"Carlos M.\"}",
+  "isBase64Encoded": false
+}
