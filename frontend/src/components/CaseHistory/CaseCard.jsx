@@ -42,19 +42,30 @@ function truncate(str, maxLen = 80) {
  *   onCancel: () => void,
  * }} props
  */
-export default function CaseCard({ caseData, onResolve, onCancel }) {
+export default function CaseCard({ caseData, onResolve, onCancel, onClick }) {
   const { t, lang } = useLanguage();
 
   const isOpen = caseData.status === 'open';
   const badgeClasses = STATUS_BADGE_CLASSES[caseData.status] ?? STATUS_BADGE_CLASSES.open;
+  // Fall back to first 8 chars of id if caseNumber is not yet backfilled
+  const displayNumber = caseData.caseNumber ?? caseData.id?.slice(0, 8).toUpperCase() ?? '';
 
   return (
-    <div className="bg-white border border-gray-200 rounded-xl p-4 shadow">
-      {/* Header row: truncated symptom + badge + date */}
+    <div
+      className="bg-white border border-gray-200 rounded-xl p-4 shadow cursor-pointer hover:border-gray-300 transition-colors"
+      onClick={onClick}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick?.(); } }}
+    >
+      {/* Header row: case number + truncated symptom + badge + date */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
-        <p className="text-sm text-gray-900 font-medium flex-1">
-          {truncate(caseData.symptom)}
-        </p>
+        <div className="flex-1 min-w-0">
+          <span className="text-xs font-mono text-gray-400 mr-2">{displayNumber}</span>
+          <span className="text-sm text-gray-900 font-medium">
+            {truncate(caseData.symptom)}
+          </span>
+        </div>
         <div className="flex items-center gap-2 shrink-0">
           <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${badgeClasses}`}>
             {t(`status.${caseData.status}`)}
@@ -70,14 +81,14 @@ export default function CaseCard({ caseData, onResolve, onCancel }) {
         <div className="flex items-center gap-3 mt-2">
           <button
             type="button"
-            onClick={onResolve}
+            onClick={(e) => { e.stopPropagation(); onResolve(); }}
             className="text-xs font-medium text-green-700 hover:text-green-900 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 rounded px-1"
           >
             {t('history.resolve')}
           </button>
           <button
             type="button"
-            onClick={onCancel}
+            onClick={(e) => { e.stopPropagation(); onCancel(); }}
             className="text-xs font-medium text-gray-500 hover:text-gray-800 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 rounded px-1"
           >
             {t('history.cancelCase')}

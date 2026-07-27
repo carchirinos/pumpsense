@@ -27,7 +27,7 @@ export default function DiagnosticCard({ symptom, cause, action, confidence }) {
 
   return (
     <article
-      className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm w-full max-w-[640px] mx-auto"
+      className="animate-card-enter bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm w-full max-w-[640px] mx-auto"
       aria-label={t('card.header')}
     >
       {/* Card header bar */}
@@ -46,7 +46,7 @@ export default function DiagnosticCard({ symptom, cause, action, confidence }) {
       </div>
 
       {/* Likely Cause — amber left border */}
-      <div className="border-l-4 border-amber-400 px-4 py-4 border-b border-gray-200">
+      <div className="border-l-4 border-amber-400 pl-3 pr-4 py-4 border-b border-gray-200">
         <p className="text-xs font-medium uppercase tracking-widest text-amber-600 mb-1">
           {t('card.cause')}
         </p>
@@ -54,7 +54,7 @@ export default function DiagnosticCard({ symptom, cause, action, confidence }) {
       </div>
 
       {/* Recommended Action — steel blue left border */}
-      <div className="border-l-4 border-blue-600 px-4 py-4 border-b border-gray-200">
+      <div className="border-l-4 border-blue-600 pl-3 pr-4 py-4 border-b border-gray-200">
         <p className="text-xs font-medium uppercase tracking-widest text-blue-700 mb-2">
           {t('card.action')}
         </p>

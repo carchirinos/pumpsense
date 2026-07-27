@@ -12,6 +12,7 @@ Globals:
         BEDROCK_MODEL_ID: us.anthropic.claude-sonnet-4-6
         BEDROCK_REGION: !Ref AWS::Region
         CASES_TABLE: !Ref CasesTable
+        SIMILAR_CASES_ENABLED: 'true'
 
 Resources:
   # ─── DynamoDB ────────────────────────────────────────────────────────────────

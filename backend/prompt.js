@@ -85,13 +85,51 @@ Provide your diagnosis as a JSON object following the format specified in your i
 /**
  * Returns the complete {systemPrompt, userPrompt} pair ready for the Bedrock client.
  *
- * @param {string} symptom          - Raw symptom description from the technician
- * @param {'en'|'es'} [language='en'] - Response language for diagnostic text values
+ * @param {string} symptom                - Raw symptom description from the technician
+ * @param {'en'|'es'} [language='en']     - Response language for diagnostic text values
+ * @param {Array} [relatedCases=[]]       - Similar resolved cases to append as context
  * @returns {{ systemPrompt: string, userPrompt: string }}
  */
-export function buildPrompt(symptom, language = 'en') {
+export function buildPrompt(symptom, language = 'en', relatedCases = []) {
+  let systemPrompt = buildSystemPrompt(language);
+
+  // Append related cases context block ONLY when there are results
+  if (relatedCases.length > 0) {
+    systemPrompt += formatRelatedCasesBlock(relatedCases);
+  }
+
   return {
-    systemPrompt: buildSystemPrompt(language),
+    systemPrompt,
     userPrompt: buildUserPrompt(symptom),
   };
+}
+
+/**
+ * Formats the related cases into a clearly delimited context block for the prompt.
+ * Instructs the model to use them as reference only, not to copy wholesale.
+ *
+ * @param {Array} cases
+ * @returns {string}
+ */
+function formatRelatedCasesBlock(cases) {
+  const entries = cases.map((c, i) =>
+    `${i + 1}. [${c.caseNumber}] Symptom: ${c.symptom}\n` +
+    `   Cause: ${c.cause}\n` +
+    `   Action taken: ${c.action}\n` +
+    `   Resolution note: ${c.resolutionNote}\n` +
+    `   Technician: ${c.technicianName}`
+  ).join('\n\n');
+
+  return `
+
+---
+
+## Prior Resolved Cases (Reference Only)
+
+The following cases were previously resolved by technicians for similar symptoms. Use them as additional context to inform your diagnosis, but:
+- Diagnose the CURRENT symptom on its own merits based on the knowledge base above.
+- You may disagree with a prior resolution if it does not apply to the current symptom.
+- Never copy a prior resolution wholesale — always tailor your response to the specific symptom described.
+
+${entries}`;
 }

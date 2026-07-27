@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 import { getCases, updateCase } from '../services/cases';
 import CaseFilters, { DEFAULT_FILTERS } from '../components/CaseHistory/CaseFilters';
@@ -19,9 +19,12 @@ function normalizeText(str) {
  */
 function filterCases(cases, filters) {
   return cases.filter((c) => {
-    // Free-text symptom search — accent-insensitive
+    // Free-text search — matches against symptom AND caseNumber, accent-insensitive
     if (filters.search) {
-      if (!normalizeText(c.symptom ?? '').includes(normalizeText(filters.search))) {
+      const query = normalizeText(filters.search);
+      const symptomMatch = normalizeText(c.symptom ?? '').includes(query);
+      const caseNumMatch = normalizeText(c.caseNumber ?? '').includes(query);
+      if (!symptomMatch && !caseNumMatch) {
         return false;
       }
     }
@@ -51,8 +54,10 @@ function filterCases(cases, filters) {
 
 export default function CaseHistory() {
   const { t } = useLanguage();
+  const [searchParams] = useSearchParams();
+  const initialSearch = searchParams.get('search') ?? '';
   const [cases, setCases]       = useState([]);
-  const [filters, setFilters]   = useState({ ...DEFAULT_FILTERS });
+  const [filters, setFilters]   = useState({ ...DEFAULT_FILTERS, search: initialSearch });
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError]       = useState('');
 
@@ -110,7 +115,12 @@ export default function CaseHistory() {
           <span className="text-sm font-semibold text-gray-900 tracking-tight">
             {t('header.wordmark')}
           </span>
-          <span className="w-12" aria-hidden="true" />
+          <Link
+            to="/diagnose"
+            className="text-sm font-medium text-gray-700 border border-gray-400 bg-gray-100 hover:bg-gray-200 hover:text-gray-900 rounded-lg px-3 py-1.5 cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2"
+          >
+            {t('history.newDiagnosis')}
+          </Link>
         </div>
       </header>
 

@@ -1,7 +1,7 @@
 import { buildPrompt } from './prompt.js';
 import { invokeClaude } from './bedrockClient.js';
 import { parseResponse } from './responseParser.js';
-import { createCase, getCases, updateCase } from './cases.js';
+import { createCase, getCases, updateCase, findSimilarCases } from './cases.js';
 
 /**
  * CORS headers included on every response — success and error alike —
@@ -70,8 +70,21 @@ async function handleDiagnose(event, requestId) {
   const { symptom, language } = extracted;
   console.log(JSON.stringify({ requestId, symptomLength: symptom.length, language }));
 
+  // --- Retrieve similar resolved cases (feature-flagged) ---
+  let relatedCases = [];
+  const similarCasesEnabled = process.env.SIMILAR_CASES_ENABLED !== 'false';
+  if (similarCasesEnabled) {
+    try {
+      relatedCases = await findSimilarCases(symptom);
+      console.log(JSON.stringify({ requestId, relatedCasesFound: relatedCases.length }));
+    } catch (err) {
+      // Non-fatal: log and continue without related cases
+      console.error(JSON.stringify({ requestId, similarCasesError: err.message }));
+    }
+  }
+
   // --- Build prompt ---
-  const { systemPrompt, userPrompt } = buildPrompt(symptom, language);
+  const { systemPrompt, userPrompt } = buildPrompt(symptom, language, relatedCases);
 
   // --- Call Bedrock ---
   let rawText;
@@ -104,8 +117,8 @@ async function handleDiagnose(event, requestId) {
 
   console.log(JSON.stringify({ requestId, confidence: diagnostic.confidence }));
 
-  // --- Return structured result ---
-  return response(200, diagnostic);
+  // --- Return structured result with relatedCases ---
+  return response(200, { ...diagnostic, relatedCases });
 }
 
 // ─── Route: POST /cases ───────────────────────────────────────────────────────

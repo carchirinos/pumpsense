@@ -90,6 +90,19 @@ const translations = {
 
     // ── Case History ──────────────────────────────────────────────────────────
     'history.link':             'Case History',
+    'history.newDiagnosis':     'Pump Diagnostics',
+
+    // ── Related cases (diagnostic result) ─────────────────────────────────────
+    'related.heading':          'Similar resolved cases',
+    'related.resolution':       'Resolution',
+    'related.viewCase':         'View case',
+
+    // ── Case Detail Modal ─────────────────────────────────────────────────────
+    'modal.caseDetail':         'Case Detail',
+    'modal.close':              'Close',
+    'modal.created':            'Created',
+    'modal.cause':              'Cause',
+    'modal.action':             'Recommended Action',
     'history.pageTitle':        'Case History',
     'history.pageSubtitle':     'Browse, filter, and resolve past diagnostics.',
     'history.loading':          'Loading cases…',
@@ -195,6 +208,19 @@ const translations = {
 
     // ── Case History ──────────────────────────────────────────────────────────
     'history.link':             'Historial de casos',
+    'history.newDiagnosis':     'Diagnóstico de bombas',
+
+    // ── Related cases (diagnostic result) ─────────────────────────────────────
+    'related.heading':          'Casos resueltos similares',
+    'related.resolution':       'Resolución',
+    'related.viewCase':         'Ver caso',
+
+    // ── Case Detail Modal ─────────────────────────────────────────────────────
+    'modal.caseDetail':         'Detalle del Caso',
+    'modal.close':              'Cerrar',
+    'modal.created':            'Creado',
+    'modal.cause':              'Causa',
+    'modal.action':             'Acción Recomendada',
     'history.pageTitle':        'Historial de Casos',
     'history.pageSubtitle':     'Navega, filtra y resuelve diagnósticos anteriores.',
     'history.loading':          'Cargando casos…',
